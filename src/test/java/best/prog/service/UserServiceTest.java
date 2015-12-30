@@ -29,12 +29,31 @@ public class UserServiceTest {
         user.setUserId("bestmenbal");
         user.setName("박상민");
         user.setPasswd("1234");
-        user.setCreateUser(user);
+        //user.setCreateUser(user);
         //When
-        String saveId = userService.create(user);
+        User createdUser = userService.create(user);
 
         //Then
-        assertEquals(user, userRepository.findOne(saveId));
+        assertEquals(user, createdUser);
+    }
+
+    @Test
+    public void 회원_정보_수정() throws Exception {
+
+        //Given
+        User user = new User();
+        user.setUserId("bestmenbal");
+        user.setName("박상민");
+        user.setPasswd("1234");
+        //user.setUpdateUser(user);
+        User createdUser = userService.create(user);
+        createdUser.setEmail("bestmenbal22@gmail.com");
+        
+        //When
+        User updatedUser = userService.update(createdUser);
+        
+        //Then
+        assertEquals(createdUser, updatedUser);
     }
 
     @Test(expected = IllegalStateException.class)
@@ -45,13 +64,13 @@ public class UserServiceTest {
         user1.setUserId("bestmenbal");
         user1.setName("박상민");
         user1.setPasswd("1234");
-        user1.setCreateUser(user1);
+        //user1.setCreateUser(user1);
         
         User user2 = new User();
         user2.setUserId("bestmenbal");
         user2.setName("박상민");
         user2.setPasswd("1234");
-        user2.setCreateUser(user2);
+        //user2.setCreateUser(user2);
         
         //When
         userService.create(user1);

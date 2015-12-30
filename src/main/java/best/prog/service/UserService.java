@@ -20,22 +20,59 @@ public class UserService {
     /**
      * 회원 생성
      */
-    public String create(User user) {
+    public User create(User user) {
 
         validateDuplicateUser(user); //중복 회원 검증
+        //user.setCreateUser(user); //todo 세션유저로 세팅
         userRepository.save(user);
-        return user.getId();
+        return user;
     }
 
     private void validateDuplicateUser(User user) {
-        List<User> findUsers = userRepository.findByUserId(user.getUserId());
-        if (!findUsers.isEmpty()) {
+        User findUser = userRepository.findByUserId(user.getUserId());
+        if (findUser != null) {
             throw new IllegalStateException("이미 존재하는 회원입니다.");
         }
     }
+    
+    /**
+     * 수정
+     * @param user
+     * @return
+     */
+    public User update(User user) {
+    	User findUser = userRepository.findOne(user.getId());
+    	//findUser.setUpdateUser(findUser); //todo 세션유저로 세팅
+    	findUser.setName(user.getName());
+    	findUser.setEmail(user.getEmail());
+    	findUser.setTel(user.getTel());
+    	if(user.getPasswd() != null || !"".equals(user.getPasswd().trim())) {
+    		findUser.setPasswd(user.getPasswd());
+    	}
+    	userRepository.saveAndFlush(findUser);
+    	return findUser;
+    }
 
     /**
-     * 전체 회원 조회
+     * 삭제
+     * @param user
+     * @return
+     */
+    public void delete(User user) {    	
+    	userRepository.delete(user);
+    }
+
+    /**
+     * 정보 조회
+     * @param user
+     * @return
+     */
+    public User findUser(User user) {
+        return userRepository.findOne(user.getId());
+    }
+
+    /**
+     * 전체 조회
      */
     public List<User> findUsers() {
         return userRepository.findAll();
