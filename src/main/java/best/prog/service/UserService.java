@@ -22,8 +22,7 @@ public class UserService {
      */
     public User create(User user) {
 
-        validateDuplicateUser(user); //중복 회원 검증
-        //user.setCreateUser(user); //todo 세션유저로 세팅
+        validateDuplicateUser(user); 
         userRepository.save(user);
         return user;
     }
@@ -41,8 +40,7 @@ public class UserService {
      * @return
      */
     public User update(User user) {
-    	User findUser = userRepository.findOne(user.getId());
-    	//findUser.setUpdateUser(findUser); //todo 세션유저로 세팅
+    	User findUser = userRepository.findOne(user.getUid());
     	findUser.setName(user.getName());
     	findUser.setEmail(user.getEmail());
     	findUser.setTel(user.getTel());
@@ -68,7 +66,7 @@ public class UserService {
      * @return
      */
     public User findUser(User user) {
-        return userRepository.findOne(user.getId());
+        return userRepository.findOne(user.getUid());
     }
 
     /**

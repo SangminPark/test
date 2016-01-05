@@ -1,33 +1,36 @@
 package best.prog.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-/**
- * ValueObject.
- *
- * @author 박상민
- */
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "user")
+@Table(name = "USER")
 public class User extends BaseEntity {
   
-  @Column(name = "user_id", nullable = false, length = 50, unique = true)
+  @Column(name = "USER_ID", nullable = false, length = 50, unique = true)
   private String userId;
 
-  @Column(name = "name", nullable = false, length = 50)
+  @Column(name = "NAME", nullable = false, length = 50)
   private String name;
 
-  @Column(name = "passwd", nullable = false, length = 255)
+  @Column(name = "PASSWD", nullable = false, length = 255)
   private String passwd;
 
-  @Column(name = "email", length = 50)
+  @Column(name = "EMAIL", length = 50)
   private String email;
 
-  @Column(name = "tel", length = 20)
+  @Column(name = "TEL", length = 20)
   private String tel;
+  
+  @OneToMany(mappedBy = "user")
+  private List<GroupUser> groupUsers = new ArrayList<GroupUser>();
+  
 
   public String getUserId() {
     return userId;
@@ -67,6 +70,14 @@ public class User extends BaseEntity {
 
   public void setTel(String tel) {
     this.tel = tel;
+  }
+
+  public List<GroupUser> getGroupUsers() {
+    return groupUsers;
+  }
+
+  public void setGroupUsers(List<GroupUser> groupUsers) {
+    this.groupUsers = groupUsers;
   }
 
 }

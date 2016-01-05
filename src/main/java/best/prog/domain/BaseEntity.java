@@ -9,6 +9,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToOne;
+import javax.persistence.PostPersist;
+import javax.persistence.PostRemove;
+import javax.persistence.PostUpdate;
 import javax.persistence.PrePersist;
 import javax.persistence.PreRemove;
 import javax.persistence.PreUpdate;
@@ -17,12 +20,6 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.GenericGenerator;
 
-
-/**
- * ValueObject.
- *
- * @author 박상민
- */
 @SuppressWarnings("serial")
 @MappedSuperclass
 public abstract class BaseEntity implements Serializable {
@@ -30,31 +27,31 @@ public abstract class BaseEntity implements Serializable {
   @Id
   @GeneratedValue(generator = "uuid")
   @GenericGenerator(name = "uuid", strategy = "uuid2")
-  @Column(name = "id", length = 36)
-  private String id;
+  @Column(name = "UID", length = 36)
+  private String uid;
 
   @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "create_date")
+  @Column(name = "CREATE_DATE")
   private Date createDate;
 
   @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "update_date")
+  @Column(name = "UPDATE_DATE")
   private Date updateDate;
 
   @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "remove_date")
+  @Column(name = "REMOVE_DATE")
   private Date removeDate;
 
   @OneToOne
-  @JoinColumn(name = "create_user_id", referencedColumnName = "id")
+  @JoinColumn(name = "CREATE_USER_UID", referencedColumnName = "UID")
   private User createUser;
 
   @OneToOne
-  @JoinColumn(name = "update_user_id", referencedColumnName = "id")
+  @JoinColumn(name = "UPDATE_USER_UID", referencedColumnName = "UID")
   private User updateUser;
 
   @OneToOne
-  @JoinColumn(name = "remove_user_id", referencedColumnName = "id")
+  @JoinColumn(name = "REMOVE_USER_UID", referencedColumnName = "UID")
   private User removeUser;
    
   @PrePersist
@@ -72,12 +69,27 @@ public abstract class BaseEntity implements Serializable {
     this.removeDate = new Date();
   }
   
-  public String getId() {
-    return id;
+  @PostPersist
+  public void postPersist() {
+
+  }
+  
+  @PostUpdate
+  public void postUpdate() {
+
+  }
+  
+  @PostRemove
+  public void postRemove() {
+
+  }
+  
+  public String getUid() {
+    return uid;
   }
 
-  public void setId(String id) {
-    this.id = id;
+  public void setUid(String uid) {
+    this.uid = uid;
   }
 
   public Date getCreateDate() {
