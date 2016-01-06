@@ -18,7 +18,7 @@ public class UserService {
     UserRepository userRepository;
 
     /**
-     * 회원 생성
+     * 생성
      */
     public User create(User user) {
 

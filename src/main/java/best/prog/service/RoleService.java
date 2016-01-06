@@ -18,7 +18,7 @@ public class RoleService {
     RoleRepository roleRepository;
 
     /**
-     * 회원 생성
+     * 생성
      */
     public Role create(Role role) {
         validateDuplicateRole(role);

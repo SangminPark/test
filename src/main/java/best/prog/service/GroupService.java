@@ -16,6 +16,7 @@ public class GroupService {
 
     @Autowired
     GroupRepository groupRepository;
+    
 
     /**
      * 회원 생성
@@ -60,14 +61,24 @@ public class GroupService {
      * @return
      */
     public Group findGroup(Group group) {
-        return groupRepository.findOne(group.getUid());
+      return groupRepository.findOne(group.getUid());
     }
 
     /**
      * 전체 조회
      */
     public List<Group> findGroups() {
-        return groupRepository.findAll();
+      return groupRepository.findAll();
     }
+    
+    /**
+     * 사용자 목록을 함께갖는 그룹정보 조회
+     * @param group
+     * @return
+     */
+    public Group findOneByWithUser(Group group) {
+      return groupRepository.findOneByWithUser(group.getUid());
+    }
+
 
 }

@@ -1,6 +1,7 @@
 package best.prog.domain;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -10,11 +11,11 @@ import javax.persistence.Table;
 @Table(name = "ROLE_GROUP")
 public class RoleGroup extends BaseEntity {
   
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "ROLE_UID", referencedColumnName = "UID")
   private Role role;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "GROUP_UID", referencedColumnName = "UID")  
   private Group group;
   

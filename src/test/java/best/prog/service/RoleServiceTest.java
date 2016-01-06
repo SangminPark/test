@@ -1,6 +1,8 @@
 package best.prog.service;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,12 +22,19 @@ public class RoleServiceTest {
     @Autowired RoleService roleService;
     @Autowired RoleRepository roleRepository;
 
+    int index = 0;
+    public Role createRole() throws Exception {
+      Role role = new Role();
+      role.setName("admin_" + index);
+      role = roleService.create(role);
+      index++;
+      return role;
+    }
+
     @Test
     public void 롤_생성() throws Exception {
 
-        Role role = new Role();
-        role.setName("admin");
-        role = roleService.create(role);
+        Role role = createRole();
 
         Role findRole = roleService.findRole(role);
         assertNotNull(findRole);
@@ -34,9 +43,7 @@ public class RoleServiceTest {
     @Test
     public void 롤_수정() throws Exception {
 
-        Role role = new Role();
-        role.setName("admin");
-        role = roleService.create(role);
+      Role role = createRole();
         role.setName("admin1");
         
         

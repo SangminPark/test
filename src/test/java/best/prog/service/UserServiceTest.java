@@ -21,6 +21,17 @@ public class UserServiceTest {
     @Autowired UserService userService;
     @Autowired UserRepository userRepository;
 
+    int index = 0;
+    public User createUser() throws Exception {
+      User user = new User();
+      user.setUserId("bestmenbal_" + index);
+      user.setName("박상민_" + index);
+      user.setPasswd("1234_" + index);
+      user = userService.create(user);
+      index++;
+      return user;
+    }
+
     @Test
     public void 회원_생성() throws Exception {
 
@@ -28,8 +39,7 @@ public class UserServiceTest {
         user.setUserId("bestmenbal");
         user.setName("박상민");
         user.setPasswd("1234");
-
-
+        
         User createdUser = userService.create(user);
 
 
@@ -39,18 +49,14 @@ public class UserServiceTest {
     @Test
     public void 회원_수정() throws Exception {
 
-        User user = new User();
-        user.setUserId("bestmenbal");
-        user.setName("박상민");
-        user.setPasswd("1234");
-        User createdUser = userService.create(user);
-        createdUser.setEmail("bestmenbal22@gmail.com");
+        User user = createUser();
+        user.setEmail("bestmenbal22@gmail.com");
 
 
-        User updatedUser = userService.update(createdUser);
+        User updatedUser = userService.update(user);
 
 
-        assertEquals(createdUser, updatedUser);
+        assertEquals(user, updatedUser);
     }
 
     @Test(expected = IllegalStateException.class)

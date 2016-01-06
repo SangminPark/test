@@ -8,6 +8,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
+import javax.persistence.NamedEntityGraphs;
 import javax.persistence.OneToOne;
 import javax.persistence.PostPersist;
 import javax.persistence.PostRemove;
@@ -20,6 +23,12 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.GenericGenerator;
 
+@NamedEntityGraphs({
+  @NamedEntityGraph(name = "Base.findWithCreateUser", attributeNodes = { @NamedAttributeNode("createUser") }),
+  @NamedEntityGraph(name = "Base.findWithUpdateUser", attributeNodes = { @NamedAttributeNode("updateUser") }),
+  @NamedEntityGraph(name = "Base.findWithDeleteUser", attributeNodes = { @NamedAttributeNode("deleteUser") }),
+  @NamedEntityGraph(name = "Base.findWithCreateUserAndUpdateUser", attributeNodes = { @NamedAttributeNode("createUser"), @NamedAttributeNode("updateUser") })
+})
 @SuppressWarnings("serial")
 @MappedSuperclass
 public abstract class BaseEntity implements Serializable {
@@ -39,8 +48,8 @@ public abstract class BaseEntity implements Serializable {
   private Date updateDate;
 
   @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "REMOVE_DATE")
-  private Date removeDate;
+  @Column(name = "DELETE_DATE")
+  private Date deleteDate;
 
   @OneToOne
   @JoinColumn(name = "CREATE_USER_UID", referencedColumnName = "UID")
@@ -51,8 +60,8 @@ public abstract class BaseEntity implements Serializable {
   private User updateUser;
 
   @OneToOne
-  @JoinColumn(name = "REMOVE_USER_UID", referencedColumnName = "UID")
-  private User removeUser;
+  @JoinColumn(name = "DELETE_USER_UID", referencedColumnName = "UID")
+  private User deleteUser;
    
   @PrePersist
   public void prePersist() {
@@ -65,8 +74,8 @@ public abstract class BaseEntity implements Serializable {
   }
   
   @PreRemove
-  public void preRemove() {
-    this.removeDate = new Date();
+  public void preDelete() {
+    this.deleteDate = new Date();
   }
   
   @PostPersist
@@ -80,7 +89,7 @@ public abstract class BaseEntity implements Serializable {
   }
   
   @PostRemove
-  public void postRemove() {
+  public void postDelete() {
 
   }
   
@@ -109,12 +118,12 @@ public abstract class BaseEntity implements Serializable {
     this.updateDate = new Date();
   }
 
-  public Date getRemoveDate() {
-    return removeDate;
+  public Date getDeleteDate() {
+    return deleteDate;
   }
 
-  public void setRemoveDate(Date removeDate) {
-    this.removeDate = removeDate;
+  public void setDeleteDate(Date deleteDate) {
+    this.deleteDate = deleteDate;
   }
 
   public User getCreateUser() {
@@ -133,11 +142,11 @@ public abstract class BaseEntity implements Serializable {
     this.updateUser = updateUser;
   }
 
-  public User getRemoveUser() {
-    return removeUser;
+  public User getDeleteUser() {
+    return deleteUser;
   }
 
-  public void setRemoveUser(User removeUser) {
-    this.removeUser = removeUser;
+  public void setDeleteUser(User deleteUser) {
+    this.deleteUser = deleteUser;
   }
 }

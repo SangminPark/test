@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -28,7 +29,7 @@ public class User extends BaseEntity {
   @Column(name = "TEL", length = 20)
   private String tel;
   
-  @OneToMany(mappedBy = "user")
+  @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
   private List<GroupUser> groupUsers = new ArrayList<GroupUser>();
   
 
