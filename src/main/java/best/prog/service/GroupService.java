@@ -77,7 +77,7 @@ public class GroupService {
      * @return
      */
     public Group findOneByWithUser(Group group) {
-      return groupRepository.findOneByWithUser(group.getUid());
+      return groupRepository.findOneWithUser(group.getUid());
     }
 
 

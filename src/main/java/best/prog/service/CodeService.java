@@ -61,7 +61,16 @@ public class CodeService {
      * @return
      */
     public Code findCode(Code code) {
-        return codeRepository.findOne(code.getUid());
+      return codeRepository.findOne(code.getUid());
+    }
+
+    /**
+     * 코드정보와 서브코드 목록을 함께 조회
+     * @param code
+     * @return
+     */
+    public Code findOneWithSubCode(Code code) {
+        return codeRepository.findOneWithSubCode(code.getUid());
     }
 
     /**

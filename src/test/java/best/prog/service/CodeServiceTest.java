@@ -62,20 +62,24 @@ public class CodeServiceTest {
     public void 그룹코드에_여러하위코드_추가() throws Exception {
 
       Code pcode = createCode();
-      Code findCode = codeService.findCode(pcode);
+      codeService.findCode(pcode);
       
       Code code1 = new Code();
       code1.setCode("code_child1");
       code1.setName("name_child1");
-      findCode.getChildCodes().add(code1);
+      pcode.getChildCodes().add(code1);
+      code1.setParentCode(pcode);
+      
       Code code2 = new Code();
       code2.setCode("code_child2");
       code2.setName("name_child2");
-      findCode.getChildCodes().add(code2);
+      pcode.getChildCodes().add(code2);
+      code2.setParentCode(pcode);
       
-      findCode = codeService.update(findCode);
+      codeService.create(code1);
+      codeService.create(code2);
       
-      Code resultCode = codeService.findCode(findCode);
+      Code resultCode = codeService.findOneWithSubCode(pcode);
       for(Code c : resultCode.getChildCodes()) {
         System.out.println(c.getCode());
       }
@@ -86,13 +90,13 @@ public class CodeServiceTest {
     public void 코드_수정() throws Exception {
 
       Code code = createCode();
-        code.setName("admin1");
-        
-        
-        Code updatedCode = codeService.update(code);
-        
-        
-        assertEquals(code, updatedCode);
+      code.setName("admin1");
+      
+      
+      Code updatedCode = codeService.update(code);
+      
+      
+      assertEquals(code, updatedCode);
     }
 
     @Test(expected = IllegalStateException.class)

@@ -21,6 +21,6 @@ public interface GroupRepository extends JpaRepository<Group, String> {
 
   @EntityGraph(value = "Group.findWithUser" , type = EntityGraphType.FETCH)
   @Query("select g from Group g where g.uid = :uid")
-  Group findOneByWithUser(@Param("uid") String uid);
+  Group findOneWithUser(@Param("uid") String uid);
   
 }

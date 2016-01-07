@@ -1,7 +1,7 @@
 package best.prog.domain;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -30,7 +30,7 @@ public class User extends BaseEntity {
   private String tel;
   
   @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-  private List<GroupUser> groupUsers = new ArrayList<GroupUser>();
+  private Set<GroupUser> groupUsers = new HashSet<GroupUser>();
   
 
   public String getUserId() {
@@ -73,11 +73,11 @@ public class User extends BaseEntity {
     this.tel = tel;
   }
 
-  public List<GroupUser> getGroupUsers() {
+  public Set<GroupUser> getGroupUsers() {
     return groupUsers;
   }
 
-  public void setGroupUsers(List<GroupUser> groupUsers) {
+  public void setGroupUsers(Set<GroupUser> groupUsers) {
     this.groupUsers = groupUsers;
   }
 

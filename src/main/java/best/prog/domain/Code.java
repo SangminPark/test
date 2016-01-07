@@ -1,7 +1,7 @@
 package best.prog.domain;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -9,9 +9,15 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
+import javax.persistence.NamedEntityGraphs;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+@NamedEntityGraphs({
+  @NamedEntityGraph(name = "Code.findWithSubCode", attributeNodes = { @NamedAttributeNode("childCodes") })
+})
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "COMMON_CODE")
@@ -31,7 +37,7 @@ public class Code extends BaseEntity {
   private Code parentCode;
   
   @OneToMany(mappedBy = "parentCode", fetch = FetchType.LAZY)
-  private List<Code> childCodes = new ArrayList<Code>();
+  private Set<Code> childCodes = new HashSet<Code>();
   
 
   public String getCode() {
@@ -66,11 +72,11 @@ public class Code extends BaseEntity {
     this.parentCode = parentCode;
   }
 
-  public List<Code> getChildCodes() {
+  public Set<Code> getChildCodes() {
     return childCodes;
   }
 
-  public void setChildCodes(List<Code> childCodes) {
+  public void setChildCodes(Set<Code> childCodes) {
     this.childCodes = childCodes;
   }
 
