@@ -32,11 +32,11 @@ public class Code extends BaseEntity {
   @Column(name = "DESCRIPTION", length = 1000)
   private String description;
 
-  @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "PARENT_UID", referencedColumnName = "UID")
   private Code parentCode;
   
-  @OneToMany(mappedBy = "parentCode", fetch = FetchType.LAZY)
+  @OneToMany(mappedBy = "parentCode", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   private Set<Code> childCodes = new HashSet<Code>();
   
 

@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
+import javax.annotation.PostConstruct;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,37 +24,51 @@ public class CodeServiceTest {
     @Autowired CodeService codeService;
     @Autowired CodeRepository codeRepository;
 
-    int index = 0;
-    public Code createCode() throws Exception {
+    
+    @PostConstruct
+    public void setUp() {
+      codeRepository.deleteAllInBatch();
+      
+      int index = 0;
       Code code = new Code();
-      code.setCode("code_" + index);
-      code.setName("name_" + index);
-      code = codeService.create(code);
+      code.setCode("group_code_" + index);
+      code.setName("group_name_" + index);
+      Code code1 = new Code();
+      code1.setCode("code_child1");
+      code1.setName("name_child1");
+      code1.setParentCode(code);
+      Code code2 = new Code();
+      code2.setCode("code_child2");
+      code2.setName("name_child2");
+      code2.setParentCode(code);
+      
+      code.getChildCodes().add(code1);
+      code.getChildCodes().add(code2);
+      codeRepository.save(code);
+      
       index++;
-      return code;
-    }
-
-    @Test
-    public void 그룹코드_생성() throws Exception {
-
-        Code code = createCode();
-
-        Code findCode = codeService.findCode(code);
-        assertNotNull(findCode);
+      code = new Code();
+      code.setCode("group_code_" + index);
+      code.setName("group_name_" + index);
+      codeRepository.save(code);
+      index++;
+      code = new Code();
+      code.setCode("group_code_" + index);
+      code.setName("group_name_" + index);
+      codeRepository.save(code);
     }
 
     @Test
     public void 하위코드_생성() throws Exception {
 
-      Code pcode = createCode();
-      Code findCode = codeService.findCode(pcode);
+      Code pcode = codeRepository.findByCode("group_code_0");
       
       Code code = new Code();
       code.setCode("code_child");
       code.setName("name_child");
-      code.setParentCode(findCode);
+      code.setParentCode(pcode);
 
-      code = codeService.create(code);
+      codeService.create(code);
       
       Code childCode = codeService.findCode(code);
       assertNotNull(childCode);
@@ -61,35 +77,62 @@ public class CodeServiceTest {
     @Test
     public void 그룹코드에_여러하위코드_추가() throws Exception {
 
-      Code pcode = createCode();
-      codeService.findCode(pcode);
-      
+      Code pcode = codeRepository.findByCode("group_code_0");
+      codeService.findOneWithSubCode(pcode);
+
       Code code1 = new Code();
-      code1.setCode("code_child1");
-      code1.setName("name_child1");
-      pcode.getChildCodes().add(code1);
+      code1.setCode("code_child3");
+      code1.setName("name_child3");
       code1.setParentCode(pcode);
       
       Code code2 = new Code();
-      code2.setCode("code_child2");
-      code2.setName("name_child2");
-      pcode.getChildCodes().add(code2);
+      code2.setCode("code_child4");
+      code2.setName("name_child4");
       code2.setParentCode(pcode);
       
-      codeService.create(code1);
-      codeService.create(code2);
+      pcode.getChildCodes().add(code1);
+      pcode.getChildCodes().add(code2);
+      
+      codeService.update(pcode);
       
       Code resultCode = codeService.findOneWithSubCode(pcode);
-      for(Code c : resultCode.getChildCodes()) {
-        System.out.println(c.getCode());
-      }
-      assertEquals(2, resultCode.getChildCodes().size());
+      assertEquals(4, resultCode.getChildCodes().size());
+    }
+
+    @Test
+    public void 그룹코드에_종속된_하위코드들중에서_특정하위코드_삭제() throws Exception {
+
+      Code pcode = codeRepository.findByCode("group_code_0");
+      
+      Code code1 = new Code();
+      code1.setCode("code_child3");
+      code1.setName("name_child3");
+      code1.setParentCode(pcode);
+      
+      Code code2 = new Code();
+      code2.setCode("code_child4");
+      code2.setName("name_child4");
+      code2.setParentCode(pcode);
+      
+      pcode.getChildCodes().add(code1);
+      pcode.getChildCodes().add(code2);
+      
+      codeService.update(pcode);
+      
+      Code resultCode = codeService.findOneWithSubCode(pcode);
+      assertEquals(4, resultCode.getChildCodes().size());
+      
+      //삭제
+      Code childCode = codeRepository.findByCode("code_child3");
+      resultCode.getChildCodes().remove(childCode);
+      resultCode = codeService.findOneWithSubCode(resultCode);
+      assertEquals(3, resultCode.getChildCodes().size());
     }
 
     @Test
     public void 코드_수정() throws Exception {
 
-      Code code = createCode();
+      Code code = codeRepository.findByCode("group_code_0");
       code.setName("admin1");
       
       
