@@ -78,7 +78,6 @@ public class CodeServiceTest {
     public void 그룹코드에_여러하위코드_추가() throws Exception {
 
       Code pcode = codeRepository.findByCode("group_code_0");
-      codeService.findOneWithSubCode(pcode);
 
       Code code1 = new Code();
       code1.setCode("code_child3");
@@ -103,7 +102,7 @@ public class CodeServiceTest {
     public void 그룹코드에_종속된_하위코드들중에서_특정하위코드_삭제() throws Exception {
 
       Code pcode = codeRepository.findByCode("group_code_0");
-      
+
       Code code1 = new Code();
       code1.setCode("code_child3");
       code1.setName("name_child3");

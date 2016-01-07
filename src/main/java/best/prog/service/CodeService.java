@@ -39,7 +39,7 @@ public class CodeService {
      * @return
      */
     public Code update(Code code) {
-    	Code findCode = codeRepository.findOne(code.getUid());
+    	Code findCode = codeRepository.findOneWithSubCode(code.getUid());
     	findCode.setCode(code.getCode());
     	findCode.setName(code.getName());
       codeRepository.saveAndFlush(findCode);
