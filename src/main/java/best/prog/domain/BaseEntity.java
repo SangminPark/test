@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -51,15 +52,15 @@ public abstract class BaseEntity implements Serializable {
   @Column(name = "DELETE_DATE")
   private Date deleteDate;
 
-  @OneToOne
+  @OneToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "CREATE_USER_UID", referencedColumnName = "UID")
   private User createUser;
 
-  @OneToOne
+  @OneToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "UPDATE_USER_UID", referencedColumnName = "UID")
   private User updateUser;
 
-  @OneToOne
+  @OneToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "DELETE_USER_UID", referencedColumnName = "UID")
   private User deleteUser;
    

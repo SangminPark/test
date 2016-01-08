@@ -3,6 +3,7 @@ package best.prog.domain;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,6 +13,7 @@ import javax.persistence.Table;
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "USER")
+@Cacheable
 public class User extends BaseEntity {
   
   @Column(name = "USER_ID", nullable = false, length = 50, unique = true)

@@ -65,8 +65,8 @@ public class UserService {
      * @param user
      * @return
      */
-    public User findUser(User user) {
-        return userRepository.findOne(user.getUid());
+    public User findUser(String uid) {
+        return userRepository.findOne(uid);
     }
 
     /**
