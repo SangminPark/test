@@ -51,13 +51,6 @@ public class UserController {
         return "redirect:/users";
     }
 
-    @RequestMapping(value = "/user/{uid}/view", method = RequestMethod.GET)
-    public String view(@ModelAttribute("uid") String uid, Model model) {
-      User user = userService.findUser(uid);
-      model.addAttribute("user", user);
-      return "user/view";
-    }
-
     /**
      * 상품 목록
      */

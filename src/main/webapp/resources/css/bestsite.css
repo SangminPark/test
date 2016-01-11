@@ -1,0 +1,5 @@
+body {
+  /* Show it's not fixed to the top */
+  padding-bottom: 4rem;
+  padding-top: 4rem;
+}
