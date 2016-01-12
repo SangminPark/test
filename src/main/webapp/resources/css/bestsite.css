@@ -3,3 +3,17 @@ body {
   padding-bottom: 4rem;
   padding-top: 4rem;
 }
+.table td {
+	padding: .4rem;
+}
+.btn-sm {
+	padding: .1rem .5rem;
+}
+.row.card {
+	border: none;
+}
+.row .breadcrumb {
+	padding: .45rem 1rem;
+	margin-bottom: 0rem;
+	background-color: none;
+}

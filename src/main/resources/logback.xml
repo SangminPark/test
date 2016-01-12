@@ -16,6 +16,11 @@
     <logger name="best.prog" level="debug" additivity="false">
         <appender-ref ref="STDOUT" />
     </logger>
+        
+    <logger name="org.springframework.web" level="debug" additivity="false">
+				<appender-ref ref="STDOUT" />
+		</logger>
+	
     <logger name="org.hibernate" level="info" additivity="false">
         <appender-ref ref="STDOUT" />
     </logger>

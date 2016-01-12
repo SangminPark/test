@@ -56,8 +56,8 @@ public class UserService {
      * @param user
      * @return
      */
-    public void delete(User user) {    	
-    	userRepository.delete(user);
+    public void delete(String uid) {    	
+    	userRepository.delete(uid);
     }
 
     /**
