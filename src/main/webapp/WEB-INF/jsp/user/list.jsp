@@ -67,7 +67,7 @@
 </form>
 
 <script>
-//
+/////
 $(document).ready(function() {
 	$('.btnCreate').click(function() {
 		var uid = 'new';
